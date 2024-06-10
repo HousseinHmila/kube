@@ -2,7 +2,6 @@
 # Step 0: Disable Swap
 swapoff -a
 sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
-
 # Step 1: Setup containerd
 sudo apt-get update
 sudo apt-get -y install ca-certificates curl
