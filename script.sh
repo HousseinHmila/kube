@@ -31,7 +31,7 @@ version = 2
           [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
             SystemdCgroup = true
 EOF
-systemctl restart containerd
+sudo systemctl restart containerd
 # Step 3: Configuring Repo and Installation
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
