@@ -1,7 +1,10 @@
 #!/bin/sh
+
+# Step 1: Disable Swap
 swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
-# Step 1: Setup containerd
+
+# Step 2: Setup containerd
 sudo apt-get update
 sudo apt-get install ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -32,6 +35,7 @@ version = 2
             SystemdCgroup = true
 EOF
 sudo systemctl restart containerd
+
 # Step 3: Configuring Repo and Installation
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
@@ -40,8 +44,12 @@ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
+
 # Step 4: Initialize Cluster with kubeadm (Only master node)
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16 
+PRIVATE_IP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
+
+sudo kubeadm init --apiserver-advertise-address=${PRIVATE_IP} --pod-network-cidr=10.244.0.0/16
+
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
