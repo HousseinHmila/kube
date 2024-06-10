@@ -11,8 +11,7 @@ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyring
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 sudo apt-get install -y containerd.io
 # Add the repository to Apt sources:
-echo 
-  "deb [arch=\$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \$(. /etc/os-release && echo \"\$VERSION_CODENAME\") stable" |sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo "deb [arch=\$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \$(. /etc/os-release && echo \"\$VERSION_CODENAME\") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
@@ -22,7 +21,7 @@ EOF
 # Apply sysctl params without reboot
 sudo sysctl --system
 
-cat <<EOF > /etc/containerd/config.toml
+cat <<EOF | sudo tee /etc/containerd/config.toml
 version = 2
 [plugins]
   [plugins."io.containerd.grpc.v1.cri"]
@@ -32,7 +31,7 @@ version = 2
           runtime_type = "io.containerd.runc.v2"
           [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
             SystemdCgroup = true
-/EOF
+EOF
 
 systemctl restart containerd
 
