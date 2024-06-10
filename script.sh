@@ -48,3 +48,6 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # Step 5: Install Network Addon (flannel) (master node)
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+alias k=kubectl
+k get node
