@@ -1,6 +1,6 @@
 #!/bin/sh
 swapoff -a
-sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 # Step 1: Setup containerd
 sudo apt-get update
 sudo apt-get install ca-certificates curl
