@@ -1,3 +1,4 @@
+#!/bin/bash
 # Step 0: Disable Swap
 swapoff -a
 sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
