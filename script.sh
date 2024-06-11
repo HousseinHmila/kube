@@ -59,3 +59,5 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 
 alias k=kubectl
 k get node
+k run mypod-1 --image nginx
+k run mypod-2 --image nginx
